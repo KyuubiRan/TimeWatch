@@ -1,0 +1,7 @@
+﻿/.vs/
+/.vscode/
+/.idea/
+
+/TimeWatch/obj/
+/TimeWatch/bin/
+/Releases/
