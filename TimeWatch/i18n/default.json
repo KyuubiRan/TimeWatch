@@ -1,0 +1,29 @@
+﻿{
+  // Config
+  "config.IncreaseTimeKeyBinding": "Store Time Key",
+  "config.IncreaseTimeKeyBindingTooltip": "Default: Add",
+  "config.DecreaseTimeKeyBinding": "Release Time Key",
+  "config.DecreaseTimeKeyBindingTooltip": "Default: Subtract",
+  "config.ShowTimeChangedNotify": "Show Notify",
+  "config.SeekTimeValue": "Seek Time Value",
+  "config.SeekTimeValueTooltip": "[1-36] Default: <6> * 10 = 1H",
+  "config.HoldShiftSeekTimeValue": "Hold Shift Seek Time Value",
+  "config.HoldShiftSeekTimeValueTooltip": "[1-36] Default: <1> * 10 = 10M",
+  "config.HoldCtrlSeekTimeValue": "Hold Ctrl Seek Time Value",
+  "config.HoldCtrlSeekTimeValueTooltip": "[1-36] Default: <3> * 10 = 30M",
+  "config.MaximumStorableTime": "Maximum Storable Time",
+  "config.MaximumStorableTimeTooltip": "[0-24000000] Default: <36> * 10 = 6H, 0 if unlimited",
+  "config.MultiPlayHostOnly": "Multi Play Host Only",
+  // Item
+  "item.TimeWatch": "Magic Time Watch",
+  "item.TimeWatchTooltip": "Current stored time: {0}\nMaximum storable time: {1}",
+  // Message
+  "message.TimeStored": "Time stored {0}, Current {1}",
+  "message.TimeReleased": "Time released {0}, Current {1}",
+  "message.TimeStoredMultiPlay": "Time stored {0} by {1}",
+  "message.TimeReleasedMultiPlay": "Time released {0} by {1}",
+  "message.StoreFailedMaximum": "Store time failed: Exceeds the maximum storable time (Current: {0}, Maximum: {1})",
+  "message.ReleaseFailedNotEnough": "Release time failed: Not enough time (Current: {0}, Need: {1})",
+  "message.StoreFailedExceedZeroOClock": "Store time failed: Time cannot be stored after 00:00",
+  "message.ReleaseFailedEarlierSixOClock": "Release time failed: Time cannot be earlier than 06:00"
+}

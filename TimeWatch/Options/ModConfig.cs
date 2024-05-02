@@ -1,0 +1,18 @@
+﻿using StardewModdingAPI;
+
+namespace TimeWatch.Options;
+
+internal class ModConfig
+{
+    public SButton IncreaseTimeKeyBind { get; set; } = SButton.Add;
+    public SButton DecreaseTimeKeyBind { get; set; } = SButton.Subtract;
+
+    public bool ShowTimeChangedNotify { get; set; } = true;
+    public bool OnlyUpdateTime { get; set; } = true;
+    public bool MultiPlayHostOnly { get; set; } = false;
+    public int DefaultSeekTimeValue { get; set; } = 6; // Default 1h
+    public int HoldShiftSeekTimeValue { get; set; } = 1; // Default 10 min
+    public int HoldCtrlSeekTimeValue { get; set; } = 3; // Default 30 min
+
+    public int MaximumStorableTime { get; set; } = 108; // Default 18 hours
+}

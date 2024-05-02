@@ -1,0 +1,29 @@
+﻿{
+  // Config
+  "config.IncreaseTimeKeyBinding": "存储时间",
+  "config.IncreaseTimeKeyBindingTooltip": "默认：小键盘加号",
+  "config.DecreaseTimeKeyBinding": "释放时间",
+  "config.DecreaseTimeKeyBindingTooltip": "默认：小键盘减号",
+  "config.ShowTimeChangedNotify": "显示通知",
+  "config.SeekTimeValue": "存储/释放的时间值",
+  "config.SeekTimeValueTooltip": "[1-36] 默认: <6> * 10 = 1小时",
+  "config.HoldShiftSeekTimeValue": "按住Shift时的值",
+  "config.HoldShiftSeekTimeValueTooltip": "[1-36] 默认: <1> * 10 = 10分钟",
+  "config.HoldCtrlSeekTimeValue": "按住Ctrl时的值",
+  "config.HoldCtrlSeekTimeValueTooltip": "[1-36] 默认: <3> * 10 = 30分钟",
+  "config.MaximumStorableTime": "最大可存储时间",
+  "config.MaximumStorableTimeTooltip": "[0-24000000] 默认: 108 * 10 = 18小时, 0则为无限制",
+  "config.MultiPlayHostOnly": "联机模式仅房主可用",
+  // Special Item
+  "item.TimeWatch": "魔法怀表",
+  "item.TimeWatchTooltip": "当前已存储时间：{0}\n最大可存储时间：{1}",
+  // Message
+  "message.TimeStored": "已存储时间 {0}, 当前共有 {1}",
+  "message.TimeStoredMultiPlay": "{1} 存储了时间 {0}",
+  "message.TimeReleased": "已释放时间 {0}, 当前共有 {1}",
+  "message.TimeReleasedMultiPlay": "{1} 释放了时间 {0}",
+  "message.StoreFailedMaximum": "时间存储失败: 已达到最大存储时间 (当前: {0}，最大: {1})",
+  "message.ReleaseFailedNotEnough": "时间释放失败: 当前没有足够的时间用于释放 (当前: {0}，所需: {1})",
+  "message.StoreFailedExceedZeroOClock": "时间存储失败: 不能在00:00之后存储时间",
+  "message.ReleaseFailedEarlierSixOClock": "时间释放失败: 释放时间时不能早于06:00"
+}
