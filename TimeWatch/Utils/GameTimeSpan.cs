@@ -18,9 +18,9 @@ internal struct GameTimeSpan
 
     public GameTimeSpan(int hour, int minute)
     {
-        Hour = hour;
-        Minute = minute % 60;
-        Hour += minute / 60;
+        var totalMinutes = hour * 60 + minute;
+        Hour = totalMinutes / 60;
+        Minute = totalMinutes % 60;
     }
 
     public static GameTimeSpan FromTime(int hour, int min) => new(hour, min);
@@ -60,9 +60,9 @@ internal struct GameTimeSpan
 
     public void SetTime(int hour, int minute)
     {
-        Hour = hour;
-        Minute = minute % 60;
-        Hour += minute / 60;
+        var totalMinutes = hour * 60 + minute;
+        Hour = totalMinutes / 60;
+        Minute = totalMinutes % 60;
     }
 
     public void SetTime(GameTimeSpan time) => SetTime(time.Hour, time.Minute);
@@ -78,7 +78,7 @@ internal struct GameTimeSpan
     public static GameTimeSpan operator +(GameTimeSpan l, GameTimeSpan r)
     {
         var ttl = l.TotalMinutes + r.TotalMinutes;
-        return new GameTimeSpan(ttl);
+        return FromMinutes(ttl);
     }
 
     public void ApplyToWorldTime()
@@ -89,7 +89,7 @@ internal struct GameTimeSpan
     public static GameTimeSpan operator -(GameTimeSpan l, GameTimeSpan r)
     {
         var ttl = l.TotalMinutes - r.TotalMinutes;
-        return new GameTimeSpan(ttl);
+        return FromMinutes(ttl);
     }
 
     public static GameTimeSpan operator -(GameTimeSpan thiz)

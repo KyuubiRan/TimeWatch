@@ -5,19 +5,19 @@ namespace TimeWatch.Utils;
 
 internal static class TimeWatchManager
 {
-    public static readonly Dictionary<long, Data.TimeWatchData> TimeWatches = new();
+    public static readonly Dictionary<long, Data.MagicTimeWatch> TimeWatches = new();
     private const string Key = "kyuubiran.TimeWatch/TimeWatchData";
 
-    public static Data.TimeWatchData GetTimeWatch(long id)
+    public static Data.MagicTimeWatch GetTimeWatch(long id)
     {
         return TimeWatches.TryGetValue(id, out var watch)
             ? watch
-            : TimeWatches[id] = new Data.TimeWatchData(Game1.getFarmer(id));
+            : TimeWatches[id] = new Data.MagicTimeWatch(Game1.getFarmer(id));
     }
 
-    public static Data.TimeWatchData CurrentTimeWatchData => GetTimeWatch(Game1.player); 
+    public static Data.MagicTimeWatch CurrentPlayerTimeWatch => GetTimeWatch(Game1.player); 
     
-    public static Data.TimeWatchData GetTimeWatch(Farmer player)
+    public static Data.MagicTimeWatch GetTimeWatch(Farmer player)
     {
         return GetTimeWatch(player.UniqueMultiplayerID);
     }
@@ -46,11 +46,11 @@ internal static class TimeWatchManager
 
             try
             {
-                TimeWatches[farmer.UniqueMultiplayerID] = JsonConvert.DeserializeObject<Data.TimeWatchData>(data)!;
+                TimeWatches[farmer.UniqueMultiplayerID] = JsonConvert.DeserializeObject<Data.MagicTimeWatch>(data)!;
             }
             catch
             {
-                TimeWatches[farmer.UniqueMultiplayerID] = new Data.TimeWatchData(farmer);
+                TimeWatches[farmer.UniqueMultiplayerID] = new Data.MagicTimeWatch(farmer);
             }
         }
     }

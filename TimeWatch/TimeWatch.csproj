@@ -22,7 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Asserts\" />
+    <Folder Include="asserts\iamge\" />
+    <Folder Include="asserts\sound\" />
     <Folder Include="Interfaces\" />
   </ItemGroup>
 

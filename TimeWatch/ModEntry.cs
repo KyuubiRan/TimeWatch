@@ -1,7 +1,6 @@
 ﻿using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
-using TimeWatch.Data;
 using TimeWatch.External;
 using TimeWatch.Options;
 using TimeWatch.Utils;
@@ -40,7 +39,9 @@ public class ModEntry : Mod
         else if (Helper.Input.IsDown(SButton.LeftControl))
             cnt = ModHelpers.Config.HoldCtrlSeekTimeValue;
 
-        var tw = TimeWatchManager.CurrentTimeWatchData;
+        cnt = cnt.CoerceIn(ModConstants.MinSeekTime, ModConstants.MaxSeekTime);
+
+        var tw = TimeWatchManager.CurrentPlayerTimeWatch;
 
         var isPlus = true;
         if (e.Button == ModHelpers.Config.IncreaseTimeKeyBind)
@@ -48,45 +49,8 @@ public class ModEntry : Mod
         else if (e.Button == ModHelpers.Config.DecreaseTimeKeyBind)
             isPlus = false;
 
-        switch (GameTimeUtils.TimeOfDay)
-        {
-            case >= 2400 when isPlus:
-                Game1.addHUDMessage(HUDMessage.ForCornerTextbox(I18n.Message_StoreFailedExceedZeroOClock()));
-                return;
-            case <= 600 when !isPlus:
-                Game1.addHUDMessage(HUDMessage.ForCornerTextbox(I18n.Message_ReleaseFailedEarlierSixOClock()));
-                return;
-        }
-
-        var cost = tw.CalcCost(isPlus ? cnt : -cnt);
-        var canSeekCnt = GameTimeUtils.CanSeek(cost);
-        var canAddCnt = tw.CanAdded(cost);
-        var cntSeeked = canSeekCnt == canAddCnt ? GameTimeUtils.SeekTime(cost) : 0;
-
-        if (cntSeeked != 0)
-        {
-            tw.Add(cntSeeked);
-            Game1.addHUDMessage(isPlus
-                ? HUDMessage.ForCornerTextbox(I18n.Message_TimeStored()
-                    .Format(GameTimeSpan.FromMinutes(cntSeeked), GameTimeSpan.FromMinutes(tw.StoredTime)))
-                : HUDMessage.ForCornerTextbox(I18n.Message_TimeReleased()
-                    .Format(GameTimeSpan.FromMinutes(-cntSeeked), GameTimeSpan.FromMinutes(tw.StoredTime))));
-        }
-        else if (cost != (isPlus ? cnt : -cnt) * 10)
-        {
-            Game1.addHUDMessage(isPlus
-                ? HUDMessage.ForCornerTextbox(I18n.Message_StoreFailedMaximum()
-                    .Format(tw.TimeSpan, TimeWatchData.MaxStorableTimeSpan))
-                : HUDMessage.ForCornerTextbox(I18n.Message_ReleaseFailedNotEnough()
-                    .Format(tw.TimeSpan, GameTimeSpan.FromMinutes(cnt * 10))));
-        }
-        else if (canAddCnt > canSeekCnt)
-        {
-            Game1.addHUDMessage(isPlus
-                ? HUDMessage.ForCornerTextbox(I18n.Message_StoreFailedExceedZeroOClock())
-                : HUDMessage.ForCornerTextbox(I18n.Message_ReleaseFailedEarlierSixOClock()));
-        }
-
+        var cntSeeked = tw.Seek(cnt * (isPlus ? 1 : -1), ModHelpers.Config.UpdateGameObjects,
+            ModHelpers.Config.ShowTimeChangedNotify);
 
         Monitor.Log($"{(isPlus ? "Increase" : "Decrease")} Time Seeked: {cntSeeked}, Stored: {tw.StoredTime}",
             LogLevel.Debug);
@@ -143,40 +107,44 @@ public class ModEntry : Mod
         configMenu.AddNumberOption(
             ModManifest,
             () => ModHelpers.Config.DefaultSeekTimeValue,
-            value => ModHelpers.Config.DefaultSeekTimeValue = value,
+            value => ModHelpers.Config.DefaultSeekTimeValue =
+                value.CoerceIn(ModConstants.MinSeekTime, ModConstants.MaxSeekTime),
             I18n.Config_SeekTimeValue,
             I18n.Config_SeekTimeValueTooltip,
-            min: 1,
-            max: 36,
-            interval: 1
+            min: ModConstants.MinSeekTime,
+            max: ModConstants.MaxSeekTime,
+            interval: ModConstants.MinSeekTime
         );
 
         configMenu.AddNumberOption(
             ModManifest,
             () => ModHelpers.Config.HoldShiftSeekTimeValue,
-            value => ModHelpers.Config.HoldShiftSeekTimeValue = value,
+            value => ModHelpers.Config.HoldShiftSeekTimeValue =
+                value.CoerceIn(ModConstants.MinSeekTime, ModConstants.MaxSeekTime),
             I18n.Config_HoldShiftSeekTimeValue,
             I18n.Config_HoldShiftSeekTimeValueTooltip,
-            min: 1,
-            max: 36,
-            interval: 1
+            min: ModConstants.MinSeekTime,
+            max: ModConstants.MaxSeekTime,
+            interval: ModConstants.MinSeekTime
         );
 
         configMenu.AddNumberOption(
             ModManifest,
             () => ModHelpers.Config.HoldCtrlSeekTimeValue,
-            value => ModHelpers.Config.HoldCtrlSeekTimeValue = value,
+            value => ModHelpers.Config.HoldCtrlSeekTimeValue =
+                value.CoerceIn(ModConstants.MinSeekTime, ModConstants.MaxSeekTime),
             I18n.Config_HoldCtrlSeekTimeValue,
             I18n.Config_HoldCtrlSeekTimeValueTooltip,
-            min: 1,
-            max: 36,
-            interval: 1
+            min: ModConstants.MinSeekTime,
+            max: ModConstants.MaxSeekTime,
+            interval: ModConstants.MinSeekTime
         );
 
         configMenu.AddNumberOption(
             ModManifest,
             () => ModHelpers.Config.MaximumStorableTime,
-            value => ModHelpers.Config.MaximumStorableTime = value.CoerceIn(0, 24000000),
+            value => ModHelpers.Config.MaximumStorableTime =
+                value.CoerceIn(ModConstants.MinStorableTime, ModConstants.MaxStorableTime),
             I18n.Config_MaximumStorableTime,
             I18n.Config_MaximumStorableTimeTooltip
         );
@@ -191,6 +159,14 @@ public class ModEntry : Mod
             ModManifest,
             () => ModHelpers.Config.MultiPlayHostOnly,
             value => ModHelpers.Config.MultiPlayHostOnly = value,
-            I18n.Config_MultiPlayHostOnly);
+            I18n.Config_MultiPlayHostOnly,
+            I18n.Config_MultiPlayHostOnlyTooltip);       
+
+        configMenu.AddBoolOption(
+            ModManifest,
+            () => ModHelpers.Config.UpdateGameObjects,
+            value => ModHelpers.Config.UpdateGameObjects = value,
+            I18n.Config_UpdateObjects,
+            I18n.Config_UpdateObjectsTooltip);
     }
 }

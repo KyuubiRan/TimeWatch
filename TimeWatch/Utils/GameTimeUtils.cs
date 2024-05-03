@@ -50,12 +50,15 @@ internal static class GameTimeUtils
     /// </summary>
     /// <param name="cnt">Seek by time unit count, cannot be negative.</param>
     /// <returns>Success seeked cnt</returns>
-    public static uint PerformUpdateTime(uint cnt)
+    public static int PerformUpdateTime(int cnt)
     {
+        if (cnt <= 0)
+            return 0;
+        
         if (TimeOfDay is < 600 or >= 2400)
             return 0;
 
-        var i = 0u;
+        var i = 0;
         for (; i < cnt; ++i)
         {
             if (TimeOfDay >= 2400)

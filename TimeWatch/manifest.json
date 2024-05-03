@@ -6,5 +6,5 @@
   "UniqueID": "kyuubiran.TimeWatch",
   "EntryDll": "TimeWatch.dll",
   "MinimumApiVersion": "4.0.0",
-  "UpdateKeys": [] // "Nexus:???", "Gtihub:user/repository", "Moddrop:???"
+  "UpdateKeys": ["Gtihub:KyuubiRan/TimeWatch"] // "Nexus:???", "Gtihub:user/repository", "Moddrop:???"
 }

@@ -8,7 +8,7 @@ internal class ModConfig
     public SButton DecreaseTimeKeyBind { get; set; } = SButton.Subtract;
 
     public bool ShowTimeChangedNotify { get; set; } = true;
-    public bool OnlyUpdateTime { get; set; } = true;
+    public bool UpdateGameObjects { get; set; } = false;
     public bool MultiPlayHostOnly { get; set; } = false;
     public int DefaultSeekTimeValue { get; set; } = 6; // Default 1h
     public int HoldShiftSeekTimeValue { get; set; } = 1; // Default 10 min

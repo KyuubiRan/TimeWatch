@@ -12,8 +12,11 @@
   "config.HoldCtrlSeekTimeValue": "按住Ctrl时的值",
   "config.HoldCtrlSeekTimeValueTooltip": "[1-36] 默认: <3> * 10 = 30分钟",
   "config.MaximumStorableTime": "最大可存储时间",
-  "config.MaximumStorableTimeTooltip": "[0-24000000] 默认: 108 * 10 = 18小时, 0则为无限制",
-  "config.MultiPlayHostOnly": "联机模式仅房主可用",
+  "config.MaximumStorableTimeTooltip": "[0-67200] 默认: <36> * 10 = 6小时，0则为无限制，67200则为28天（1季度）",
+  "config.MultiPlayHostOnly": "仅房主可用",
+  "config.MultiPlayHostOnlyTooltip": "联机模式时，仅房主可以存储、释放时间",
+  "config.UpdateObjects": "更新物体",
+  "config.UpdateObjectsTooltip": "※不建议开启\n使用 performTenMinuteClockUpdate 代替直接设置时间\n即：存储时间的同时更新游戏内的物体",
   // Special Item
   "item.TimeWatch": "魔法怀表",
   "item.TimeWatchTooltip": "当前已存储时间：{0}\n最大可存储时间：{1}",
@@ -24,6 +27,6 @@
   "message.TimeReleasedMultiPlay": "{1} 释放了时间 {0}",
   "message.StoreFailedMaximum": "时间存储失败: 已达到最大存储时间 (当前: {0}，最大: {1})",
   "message.ReleaseFailedNotEnough": "时间释放失败: 当前没有足够的时间用于释放 (当前: {0}，所需: {1})",
-  "message.StoreFailedExceedZeroOClock": "时间存储失败: 不能在00:00之后存储时间",
-  "message.ReleaseFailedEarlierSixOClock": "时间释放失败: 释放时间时不能早于06:00"
+  "message.StoreFailedExceedZeroOClock": "时间存储失败: 存储后的时间不能超过00:00",
+  "message.ReleaseFailedEarlierSixOClock": "时间释放失败: 释放后的时间不能早于06:00"
 }

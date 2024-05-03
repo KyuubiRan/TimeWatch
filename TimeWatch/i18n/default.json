@@ -12,8 +12,11 @@
   "config.HoldCtrlSeekTimeValue": "Hold Ctrl Seek Time Value",
   "config.HoldCtrlSeekTimeValueTooltip": "[1-36] Default: <3> * 10 = 30M",
   "config.MaximumStorableTime": "Maximum Storable Time",
-  "config.MaximumStorableTimeTooltip": "[0-24000000] Default: <36> * 10 = 6H, 0 if unlimited",
-  "config.MultiPlayHostOnly": "Multi Play Host Only",
+  "config.MaximumStorableTimeTooltip": "[0-67200] Default: <36> * 10 = 6H, 0 if unlimited, 67200 = 28 days = 1 season",
+  "config.MultiPlayHostOnly": "Host Only",
+  "config.MultiPlayHostOnlyTooltip": "In multiplay game, only host can store and release time",
+  "config.UpdateObjects": "Update Objects",
+  "config.UpdateObjectsTooltip": "※NOT RECOMMEND\nUse performTenMinuteClockUpdate instead direct set time\nWill update game objects when time stored",
   // Item
   "item.TimeWatch": "Magic Time Watch",
   "item.TimeWatchTooltip": "Current stored time: {0}\nMaximum storable time: {1}",
@@ -24,6 +27,6 @@
   "message.TimeReleasedMultiPlay": "Time released {0} by {1}",
   "message.StoreFailedMaximum": "Store time failed: Exceeds the maximum storable time (Current: {0}, Maximum: {1})",
   "message.ReleaseFailedNotEnough": "Release time failed: Not enough time (Current: {0}, Need: {1})",
-  "message.StoreFailedExceedZeroOClock": "Store time failed: Time cannot be stored after 00:00",
-  "message.ReleaseFailedEarlierSixOClock": "Release time failed: Time cannot be earlier than 06:00"
+  "message.StoreFailedExceedZeroOClock": "Store time failed: The time after storage cannot exceed 00:00",
+  "message.ReleaseFailedEarlierSixOClock": "Release time failed: The time after release cannot be earlier than 06:00"
 }
