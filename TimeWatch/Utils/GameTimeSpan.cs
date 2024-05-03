@@ -1,6 +1,4 @@
-﻿using StardewValley;
-
-namespace TimeWatch.Utils;
+﻿namespace TimeWatch.Utils;
 
 internal struct GameTimeSpan
 {

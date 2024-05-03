@@ -22,6 +22,11 @@ internal class MagicTimeWatch
             StoredTime = StoredTime.CoerceIn(0, MaxStorableTime);
     }
 
+    /// <summary>
+    /// Calculate the maximum time can be stored or released.
+    /// </summary>
+    /// <param name="cnt">Time unit</param>
+    /// <returns>Maximum time(minutes) consumable</returns>
     public int CalcCost(int cnt)
     {
         cnt *= 10;
@@ -44,6 +49,13 @@ internal class MagicTimeWatch
         }
     }
 
+    /// <summary>
+    /// Seek time by time unit, can be negative.
+    /// </summary>
+    /// <param name="cnt">Skeed time unit</param>
+    /// <param name="performUpdate">Use Game1.performTenMinuteClockUpdate instead</param>
+    /// <param name="showNotify">Show HUD message</param>
+    /// <returns>Time minutes seeked, 0 = failed</returns>
     public int Seek(int cnt, bool performUpdate = false, bool showNotify = true)
     {
         // ignored
