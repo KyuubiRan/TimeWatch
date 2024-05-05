@@ -9,7 +9,7 @@ using TimeWatch.Utils;
 
 namespace TimeWatch.Widgets;
 
-public class TimeWatchOnInventoryMenu : IDisposable
+public class TimeWatchButton : IDisposable
 {
     private bool _rendered = false;
 
@@ -27,7 +27,7 @@ public class TimeWatchOnInventoryMenu : IDisposable
     private Item? _hoverItem = null;
     private Item? _heldItem = null;
 
-    public TimeWatchOnInventoryMenu()
+    public TimeWatchButton()
     {
         Helper.Events.Display.RenderedActiveMenu += OnRenderedActiveMenu;
         Helper.Events.Input.ButtonPressed += OnButtonPressed;

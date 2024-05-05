@@ -66,10 +66,14 @@ internal class MagicTimeWatch
         // Check cost == cnt
         if (cost != cnt * 10)
         {
-            Game1.addHUDMessage(
-                HUDMessage.ForCornerTextbox(cnt > 0
-                    ? I18n.Message_StoreFailedMaximum().Format(TimeSpan, MaxStorableTimeSpan)
-                    : I18n.Message_ReleaseFailedNotEnough().Format(TimeSpan, GameTimeSpan.FromMinutes(cnt * 10))));
+            if (showNotify)
+            {
+                Game1.addHUDMessage(
+                    HUDMessage.ForCornerTextbox(cnt > 0
+                        ? I18n.Message_StoreFailedMaximum().Format(TimeSpan, MaxStorableTimeSpan)
+                        : I18n.Message_ReleaseFailedNotEnough().Format(TimeSpan, GameTimeSpan.FromMinutes(cnt * 10))));
+            }
+
             return 0;
         }
 
@@ -120,6 +124,7 @@ internal class MagicTimeWatch
                         ? I18n.Message_StoreFailedExceedZeroOClock()
                         : I18n.Message_ReleaseFailedEarlierSixOClock()));
             }
+
             return 0;
         }
 
