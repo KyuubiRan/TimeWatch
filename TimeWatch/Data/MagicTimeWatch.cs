@@ -13,18 +13,13 @@ internal class MagicTimeWatch
     public static GameTimeSpan DailyMaximumStorableTimeSpan => GameTimeSpan.FromMinutes(DailyMaximumStorableTime);
     public static GameTimeSpan TodayWorldSeekedTime;
     // public const string DailySeekedTimeKey = "kyuubiran.TimeWatch/TodayWorldSeekedTime";
-    
+
     [JsonIgnore] public GameTimeSpan TimeSpan => GameTimeSpan.FromMinutes(StoredTime);
 
     public int StoredTime { get; set; }
 
     [JsonIgnore] public GameTimeSpan StoredTimeSpan => GameTimeSpan.FromMinutes(StoredTime);
-    
-    public MagicTimeWatch()
-    {
-        if (MaxStorableTime > 0)
-            StoredTime = StoredTime.CoerceIn(0, MaxStorableTime);
-    }
+
 
     public MagicTimeWatch(int minutes)
     {
@@ -33,11 +28,12 @@ internal class MagicTimeWatch
             StoredTime = StoredTime.CoerceIn(0, MaxStorableTime);
     }
 
-    public MagicTimeWatch(GameTimeSpan ts)
+    public MagicTimeWatch(GameTimeSpan ts) : this(ts.TotalMinutes)
     {
-        StoredTime = ts.TotalMinutes;
-        if (MaxStorableTime > 0)
-            StoredTime = StoredTime.CoerceIn(0, MaxStorableTime);
+    }
+
+    public MagicTimeWatch() : this(0)
+    {
     }
 
     /// <summary>
