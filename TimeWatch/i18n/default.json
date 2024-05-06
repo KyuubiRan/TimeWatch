@@ -23,7 +23,7 @@
   // Item
   "item.TimeWatch": "Magic Time Watch",
   "item.TimeWatchTooltip": "Current stored time: {0}\nMaximum storable time: {1}\nRemaining storable time of today: {2}",
-  "item.unlimited": "Unlimited",
+  "item.TimeWatch.StoreTime.Unlimited": "Unlimited",
   // Message
   "message.TimeStored": "Time stored {0}, Current {1}",
   "message.TimeReleased": "Time turn backed {0}, Current {1}",

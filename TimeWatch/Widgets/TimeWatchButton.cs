@@ -73,11 +73,11 @@ public class TimeWatchButton : IDisposable
             var tw = TimeWatchManager.CurrentPlayerTimeWatch;
             var maxStr = MagicTimeWatch.MaxStorableTime > 0
                 ? MagicTimeWatch.MaxStorableTimeSpan.ToString()
-                : I18n.Item_Unlimited();
+                : I18n.Item_TimeWatch_StoreTime_Unlimited();
 
             var remainingStr = MagicTimeWatch.DailyMaximumStorableTime > 0
                 ? (MagicTimeWatch.DailyMaximumStorableTimeSpan - MagicTimeWatch.TodayWorldSeekedTime).ToString()
-                : I18n.Item_Unlimited();
+                : I18n.Item_TimeWatch_StoreTime_Unlimited();
             
             var s = I18n.Item_TimeWatchTooltip().Format(tw.StoredTimeSpan, maxStr, remainingStr);
             IClickableMenu.drawHoverText(Game1.spriteBatch, s, Game1.dialogueFont);
