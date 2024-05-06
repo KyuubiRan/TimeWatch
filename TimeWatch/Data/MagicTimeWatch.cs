@@ -1,19 +1,26 @@
 ﻿using Newtonsoft.Json;
 using StardewValley;
+using TimeWatch.Options;
 using TimeWatch.Utils;
 
 namespace TimeWatch.Data;
 
 internal class MagicTimeWatch
 {
-    public static int MaxStorableTime => ModHelpers.Config.MaximumStorableTime * 10;
+    public static int MaxStorableTime => ModHelpers.Config.MaximumStorableTime * 60;
+    public static int DailyMaximumStorableTime => ModHelpers.Config.DailyMaximumStorableTime * ModConstants.TimeUnit;
     public static GameTimeSpan MaxStorableTimeSpan => GameTimeSpan.FromMinutes(MaxStorableTime);
+    public static GameTimeSpan DailyMaximumStorableTimeSpan => GameTimeSpan.FromMinutes(DailyMaximumStorableTime);
+    public static GameTimeSpan TodayWorldSeekedTime;
+    // public const string DailySeekedTimeKey = "kyuubiran.TimeWatch/TodayWorldSeekedTime";
 
     [JsonIgnore] public readonly Farmer Owner;
     [JsonIgnore] public long OwnerId => Owner.UniqueMultiplayerID;
     [JsonIgnore] public GameTimeSpan TimeSpan => GameTimeSpan.FromMinutes(StoredTime);
 
     public int StoredTime { get; private set; }
+
+    [JsonIgnore] public GameTimeSpan StoredTimeSpan => GameTimeSpan.FromMinutes(StoredTime);
 
     public MagicTimeWatch(Farmer owner)
     {
@@ -71,7 +78,7 @@ internal class MagicTimeWatch
                 Game1.addHUDMessage(
                     HUDMessage.ForCornerTextbox(cnt > 0
                         ? I18n.Message_StoreFailedMaximum().Format(TimeSpan, MaxStorableTimeSpan)
-                        : I18n.Message_ReleaseFailedNotEnough().Format(TimeSpan, GameTimeSpan.FromMinutes(cnt * 10))));
+                        : I18n.Message_ReleaseFailedNotEnough().Format(TimeSpan, GameTimeSpan.FromMinutes(-cnt * 10))));
             }
 
             return 0;
@@ -97,7 +104,23 @@ internal class MagicTimeWatch
         // Check same value, if same then seek time
         if (canSeekMinutes == canAddMinutes)
         {
+            // Check daily maximum storable time
+            if (DailyMaximumStorableTime > 0)
+            {
+                var daily = TodayWorldSeekedTime + GameTimeSpan.FromMinutes(canSeekMinutes);
+                if (daily > DailyMaximumStorableTimeSpan)
+                {
+                    if (showNotify)
+                    {
+                        Game1.addHUDMessage(HUDMessage.ForCornerTextbox(I18n.Message_StoreFailedExceedDailyMaximum()));
+                    }
+
+                    return 0;
+                }
+            }
+
             Add(canSeekMinutes);
+            TodayWorldSeekedTime += GameTimeSpan.FromMinutes(canSeekMinutes);
 
             if (performUpdate && cnt > 0)
                 GameTimeUtils.PerformUpdateTime(canSeekMinutes / 10);
@@ -109,7 +132,8 @@ internal class MagicTimeWatch
                 Game1.addHUDMessage(
                     HUDMessage.ForCornerTextbox(
                         (cnt > 0 ? I18n.Message_TimeStored() : I18n.Message_TimeReleased())
-                        .Format(GameTimeSpan.FromMinutes(canSeekMinutes), GameTimeSpan.FromMinutes(StoredTime)))
+                        .Format(GameTimeSpan.FromMinutes(cnt > 0 ? canSeekMinutes : -canSeekMinutes),
+                            GameTimeSpan.FromMinutes(StoredTime)))
                 );
             }
 
@@ -178,4 +202,22 @@ internal class MagicTimeWatch
         // Return retained time
         return minutes - added;
     }
+
+    // public static void OnSave()
+    // {
+    //     if (!Game1.IsMasterGame)
+    //         return;
+    //
+    //     Game1.player.modData[DailySeekedTimeKey] = TodayWorldSeekedTime.TotalMinutes.ToString();
+    // }
+    //
+    // public static void OnLoad()
+    // {
+    //     if (!Game1.IsMasterGame)
+    //         return;
+    //     
+    //     var s = Game1.player.modData.TryGetValue(DailySeekedTimeKey, out var data) ? data : "0";
+    //     if (int.TryParse(s, out var minutes))
+    //         TodayWorldSeekedTime = GameTimeSpan.FromMinutes(minutes);
+    // }
 }

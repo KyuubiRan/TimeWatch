@@ -37,7 +37,7 @@ public interface IGenericModConfigMenuApi
     ///   The tooltip text shown when the cursor hovers on the title, or <c>null</c> to disable the
     ///   tooltip.
     /// </param>
-    void AddSectionTitle(IManifest mod, Func<string> text, Func<string> tooltip = null);
+    void AddSectionTitle(IManifest mod, Func<string> text, Func<string>? tooltip = null);
 
     /// <summary>Add a paragraph of text at the current position in the form.</summary>
     /// <param name="mod">The mod's manifest.</param>
@@ -74,8 +74,8 @@ public interface IGenericModConfigMenuApi
         Func<bool> getValue,
         Action<bool> setValue,
         Func<string> name,
-        Func<string> tooltip = null,
-        string fieldId = null
+        Func<string>? tooltip = null,
+        string? fieldId = null
     );
 
     /// <summary>Add an integer option at the current position in the form.</summary>
@@ -100,12 +100,12 @@ public interface IGenericModConfigMenuApi
         Func<int> getValue,
         Action<int> setValue,
         Func<string> name,
-        Func<string> tooltip = null,
+        Func<string>? tooltip = null,
         int? min = null,
         int? max = null,
         int? interval = null,
-        Func<int, string> formatValue = null,
-        string fieldId = null
+        Func<int, string>? formatValue = null,
+        string? fieldId = null
     );
 
     /// <summary>Add a float option at the current position in the form.</summary>
@@ -130,12 +130,12 @@ public interface IGenericModConfigMenuApi
         Func<float> getValue,
         Action<float> setValue,
         Func<string> name,
-        Func<string> tooltip = null,
+        Func<string>? tooltip = null,
         float? min = null,
         float? max = null,
         float? interval = null,
-        Func<float, string> formatValue = null,
-        string fieldId = null
+        Func<float, string>? formatValue = null,
+        string? fieldId = null
     );
 
     /// <summary>Add a string option at the current position in the form.</summary>
@@ -161,10 +161,10 @@ public interface IGenericModConfigMenuApi
         Func<string> getValue,
         Action<string> setValue,
         Func<string> name,
-        Func<string> tooltip = null,
-        string[] allowedValues = null,
-        Func<string, string> formatAllowedValue = null,
-        string fieldId = null
+        Func<string>? tooltip = null,
+        string[]? allowedValues = null,
+        Func<string, string>? formatAllowedValue = null,
+        string? fieldId = null
     );
 
     /// <summary>Add a key binding at the current position in the form.</summary>
@@ -185,8 +185,8 @@ public interface IGenericModConfigMenuApi
         Func<SButton> getValue,
         Action<SButton> setValue,
         Func<string> name,
-        Func<string> tooltip = null,
-        string fieldId = null
+        Func<string>? tooltip = null,
+        string? fieldId = null
     );
 
     /// <summary>Add a key binding list at the current position in the form.</summary>
@@ -207,8 +207,8 @@ public interface IGenericModConfigMenuApi
         Func<KeybindList> getValue,
         Action<KeybindList> setValue,
         Func<string> name,
-        Func<string> tooltip = null,
-        string fieldId = null
+        Func<string>? tooltip = null,
+        string? fieldId = null
     );
 
 
@@ -226,14 +226,14 @@ public interface IGenericModConfigMenuApi
     ///   You must also call <see cref="AddPageLink" /> to make the page accessible. This is only needed to set up a
     ///   multi-page config UI. If you don't call this method, all options will be part of the mod's main config UI instead.
     /// </remarks>
-    void AddPage(IManifest mod, string pageId, Func<string> pageTitle = null);
+    void AddPage(IManifest mod, string pageId, Func<string>? pageTitle = null);
 
     /// <summary>Add a link to a page added via <see cref="AddPage" /> at the current position in the form.</summary>
     /// <param name="mod">The mod's manifest.</param>
     /// <param name="pageId">The unique ID of the page to open when the link is clicked.</param>
     /// <param name="text">The link text shown in the form.</param>
     /// <param name="tooltip">The tooltip text shown when the cursor hovers on the link, or <c>null</c> to disable the tooltip.</param>
-    void AddPageLink(IManifest mod, string pageId, Func<string> text, Func<string> tooltip = null);
+    void AddPageLink(IManifest mod, string pageId, Func<string> text, Func<string>? tooltip = null);
 
 
     /****
@@ -284,15 +284,15 @@ public interface IGenericModConfigMenuApi
         IManifest mod,
         Func<string> name,
         Action<SpriteBatch, Vector2> draw,
-        Func<string> tooltip = null,
-        Action beforeMenuOpened = null,
-        Action beforeSave = null,
-        Action afterSave = null,
-        Action beforeReset = null,
-        Action afterReset = null,
-        Action beforeMenuClosed = null,
-        Func<int> height = null,
-        string fieldId = null
+        Func<string>? tooltip = null,
+        Action? beforeMenuOpened = null,
+        Action? beforeSave = null,
+        Action? afterSave = null,
+        Action? beforeReset = null,
+        Action? afterReset = null,
+        Action? beforeMenuClosed = null,
+        Func<int>? height = null,
+        string? fieldId = null
     );
 
     /// <summary>Set whether the options registered after this point can only be edited from the title screen.</summary>

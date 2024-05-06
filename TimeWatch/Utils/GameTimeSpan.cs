@@ -1,4 +1,6 @@
-﻿namespace TimeWatch.Utils;
+﻿using System.Diagnostics.Contracts;
+
+namespace TimeWatch.Utils;
 
 internal struct GameTimeSpan
 {
@@ -30,6 +32,7 @@ internal struct GameTimeSpan
     }
 
     public static GameTimeSpan FromMinutes(int minutes) => new(0, minutes);
+    public static GameTimeSpan FromHours(int hours) => new(hours, 0);
 
     public static GameTimeSpan FromTime(int time) => new(time);
 
@@ -77,6 +80,36 @@ internal struct GameTimeSpan
     {
         var ttl = l.TotalMinutes + r.TotalMinutes;
         return FromMinutes(ttl);
+    }
+
+    public static bool operator <(GameTimeSpan l, GameTimeSpan r)
+    {
+        return l.TotalMinutes < r.TotalMinutes;
+    }
+
+    public static bool operator >(GameTimeSpan l, GameTimeSpan r)
+    {
+        return l.TotalMinutes > r.TotalMinutes;
+    }
+
+    public static bool operator <=(GameTimeSpan l, GameTimeSpan r)
+    {
+        return l.TotalMinutes <= r.TotalMinutes;
+    }
+
+    public static bool operator >=(GameTimeSpan l, GameTimeSpan r)
+    {
+        return l.TotalMinutes >= r.TotalMinutes;
+    }
+
+    public static bool operator ==(GameTimeSpan l, GameTimeSpan r)
+    {
+        return l.Hour == r.Hour && l.Minute == r.Minute;
+    }
+    
+    public static bool operator !=(GameTimeSpan l, GameTimeSpan r)
+    {
+        return l.Hour != r.Hour || l.Minute != r.Minute;
     }
 
     public void ApplyToWorldTime()

@@ -1,14 +1,18 @@
 ﻿using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
+using TimeWatch.Data;
 using TimeWatch.External;
 using TimeWatch.Options;
 using TimeWatch.Utils;
+using TimeWatch.Widgets;
 
 namespace TimeWatch;
 
 public class ModEntry : Mod
 {
+    private TimeWatchButton? _timeWatchButton;
+    
     public override void Entry(IModHelper helper)
     {
         ModHelpers.Config = Helper.ReadConfig<ModConfig>();
@@ -16,12 +20,25 @@ public class ModEntry : Mod
         ModHelpers.Helper = Helper;
 
         helper.Events.GameLoop.GameLaunched += OnGameLaunched;
+        helper.Events.GameLoop.ReturnedToTitle += OnReturnToTitle;
         helper.Events.GameLoop.Saving += OnGameSaving;
+        helper.Events.GameLoop.DayStarted += OnDayStared;
         helper.Events.GameLoop.SaveLoaded += OnSaveLoaded;
         helper.Events.Input.ButtonPressed += OnKeyDown;
         I18n.Init(helper.Translation);
     }
 
+    private void OnDayStared(object? sender, DayStartedEventArgs e)
+    {
+        MagicTimeWatch.TodayWorldSeekedTime = new GameTimeSpan();
+    }
+
+    private void OnReturnToTitle(object? sender, ReturnedToTitleEventArgs e)
+    {
+        _timeWatchButton?.Dispose();
+        _timeWatchButton = null;
+    }
+    
     private void OnKeyDown(object? sender, ButtonPressedEventArgs e)
     {
         if (!Context.IsPlayerFree)
@@ -59,11 +76,14 @@ public class ModEntry : Mod
     private void OnGameSaving(object? sender, SavingEventArgs e)
     {
         TimeWatchManager.OnSave();
+        // MagicTimeWatch.OnSave();
     }
 
     private void OnSaveLoaded(object? sender, SaveLoadedEventArgs e)
     {
+        _timeWatchButton ??= new TimeWatchButton();
         TimeWatchManager.OnLoad();
+        // MagicTimeWatch.OnLoad();
     }
 
     private void OnGameLaunched(object? sender, GameLaunchedEventArgs e)
@@ -88,6 +108,7 @@ public class ModEntry : Mod
 
         configMenu.Register(ModManifest, () => ModHelpers.Config = new ModConfig(),
             () => Helper.WriteConfig(ModHelpers.Config));
+
         configMenu.AddKeybind(
             ModManifest,
             () => ModHelpers.Config.IncreaseTimeKeyBind,
@@ -142,6 +163,18 @@ public class ModEntry : Mod
 
         configMenu.AddNumberOption(
             ModManifest,
+            () => ModHelpers.Config.DailyMaximumStorableTime,
+            value => ModHelpers.Config.DailyMaximumStorableTime =
+                value.CoerceIn(ModConstants.MinDailyStorableTime, ModConstants.MaxDailyStorableTime),
+            I18n.Config_DailyMaximumStorableTime,
+            I18n.Config_DailyMaximumStorableTimeTooltip,
+            min: ModConstants.MinDailyStorableTime,
+            max: ModConstants.MaxDailyStorableTime,
+            interval: 1
+        );
+
+        configMenu.AddNumberOption(
+            ModManifest,
             () => ModHelpers.Config.MaximumStorableTime,
             value => ModHelpers.Config.MaximumStorableTime =
                 value.CoerceIn(ModConstants.MinStorableTime, ModConstants.MaxStorableTime),
@@ -153,14 +186,15 @@ public class ModEntry : Mod
             ModManifest,
             () => ModHelpers.Config.ShowTimeChangedNotify,
             value => ModHelpers.Config.ShowTimeChangedNotify = value,
-            I18n.Config_ShowTimeChangedNotify);
+            I18n.Config_ShowTimeChangedNotify,
+            I18n.Config_ShowTimeChangedNotifyTooltip);
 
         configMenu.AddBoolOption(
             ModManifest,
             () => ModHelpers.Config.MultiPlayHostOnly,
             value => ModHelpers.Config.MultiPlayHostOnly = value,
             I18n.Config_MultiPlayHostOnly,
-            I18n.Config_MultiPlayHostOnlyTooltip);       
+            I18n.Config_MultiPlayHostOnlyTooltip);
 
         configMenu.AddBoolOption(
             ModManifest,

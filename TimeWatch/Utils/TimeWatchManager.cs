@@ -15,8 +15,8 @@ internal static class TimeWatchManager
             : TimeWatches[id] = new Data.MagicTimeWatch(Game1.getFarmer(id));
     }
 
-    public static Data.MagicTimeWatch CurrentPlayerTimeWatch => GetTimeWatch(Game1.player); 
-    
+    public static Data.MagicTimeWatch CurrentPlayerTimeWatch => GetTimeWatch(Game1.player);
+
     public static Data.MagicTimeWatch GetTimeWatch(Farmer player)
     {
         return GetTimeWatch(player.UniqueMultiplayerID);
