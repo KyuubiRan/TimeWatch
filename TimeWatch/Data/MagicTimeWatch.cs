@@ -169,6 +169,9 @@ internal class MagicTimeWatch
 
     public int CanAdded(int minutes)
     {
+        if (MaxStorableTime == 0)
+            return minutes;
+
         if (minutes == 0)
             return 0;
 
@@ -194,10 +197,10 @@ internal class MagicTimeWatch
 
         var isPlus = minutes > 0;
         int added;
+
         if (isPlus)
         {
-            var maximumAddable = MaxStorableTime - StoredTime;
-            added = Math.Min(minutes, maximumAddable);
+            added = MaxStorableTime == 0 ? minutes : Math.Min(MaxStorableTime - StoredTime, minutes);
         }
         else
         {

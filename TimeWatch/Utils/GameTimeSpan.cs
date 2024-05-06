@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.Contracts;
-
-namespace TimeWatch.Utils;
+﻿namespace TimeWatch.Utils;
 
 internal struct GameTimeSpan
 {
