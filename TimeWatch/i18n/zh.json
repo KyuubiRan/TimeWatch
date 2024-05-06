@@ -19,7 +19,7 @@
   "config.UpdateObjects": "更新物体",
   "config.UpdateObjectsTooltip": "※不建议开启\n使用 performTenMinuteClockUpdate 代替直接设置时间\n即：存储时间的同时更新游戏内的物体",
   "config.DailyMaximumStorableTime": "每日最大可存储时间（10分钟）",
-  "config.DailyMaximumStorableTimeTooltip": "[0-108] 默认: <18> * 10 = 180分钟 = 3小时，0则为无限制\n回溯时间时，也会减少这个值",
+  "config.DailyMaximumStorableTimeTooltip": "[0-108] 默认: <18> * 10 = 180分钟 = 3小时，0则为无限制\n回溯时间时，也会增加这个值",
   // Item
   "item.TimeWatch": "魔法怀表",
   "item.TimeWatchTooltip": "当前已存储时间：{0}\n最大可存储时间：{1}\n当日剩余可存储时间: {2}",

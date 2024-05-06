@@ -19,7 +19,7 @@
   "config.UpdateObjects": "Update Objects",
   "config.UpdateObjectsTooltip": "※NOT RECOMMEND\nUse performTenMinuteClockUpdate instead direct set time\nWill update game objects when time stored",
   "config.DailyMaximumStorableTime": "Daily Maximum Storable Time (10 Minutes)",
-  "config.DailyMaximumStorableTimeTooltip": "[0-108] Default: <18> * 10 = 180M = 3H, 0 if unlimited\nWill reduce the value when turning back time",
+  "config.DailyMaximumStorableTimeTooltip": "[0-108] Default: <18> * 10 = 180M = 3H, 0 if unlimited\nWill increase the value when turning back time",
   // Item
   "item.TimeWatch": "Magic Time Watch",
   "item.TimeWatchTooltip": "Current stored time: {0}\nMaximum storable time: {1}\nRemaining storable time of today: {2}",
