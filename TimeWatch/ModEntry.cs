@@ -68,9 +68,10 @@ public class ModEntry : Mod
 
         var cntSeeked = tw.Seek(cnt * (isPlus ? 1 : -1), ModHelpers.Config.UpdateGameObjects,
             ModHelpers.Config.ShowTimeChangedNotify);
-
+#if DEBUG
         Monitor.Log($"{(isPlus ? "Increase" : "Decrease")} Time Seeked: {cntSeeked}, Stored: {tw.StoredTime}",
             LogLevel.Debug);
+#endif
     }
 
     private void OnGameSaving(object? sender, SavingEventArgs e)
