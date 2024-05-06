@@ -1,23 +1,24 @@
 ﻿using Newtonsoft.Json;
 using StardewValley;
+using TimeWatch.Data;
 
 namespace TimeWatch.Utils;
 
 internal static class TimeWatchManager
 {
-    public static readonly Dictionary<long, Data.MagicTimeWatch> TimeWatches = new();
+    public static readonly Dictionary<long, MagicTimeWatch> TimeWatches = new();
     private const string Key = "kyuubiran.TimeWatch/TimeWatchData";
 
-    public static Data.MagicTimeWatch GetTimeWatch(long id)
+    public static MagicTimeWatch GetTimeWatch(long id)
     {
         return TimeWatches.TryGetValue(id, out var watch)
             ? watch
-            : TimeWatches[id] = new Data.MagicTimeWatch(Game1.getFarmer(id));
+            : TimeWatches[id] = new MagicTimeWatch();
     }
 
-    public static Data.MagicTimeWatch CurrentPlayerTimeWatch => GetTimeWatch(Game1.player);
+    public static MagicTimeWatch CurrentPlayerTimeWatch => GetTimeWatch(Game1.player);
 
-    public static Data.MagicTimeWatch GetTimeWatch(Farmer player)
+    public static MagicTimeWatch GetTimeWatch(Farmer player)
     {
         return GetTimeWatch(player.UniqueMultiplayerID);
     }
@@ -42,15 +43,16 @@ internal static class TimeWatchManager
     {
         foreach (var farmer in Game1.getAllFarmers())
         {
-            if (!farmer.modData.TryGetValue(Key, out var data)) continue;
+            if (!farmer.modData.TryGetValue(Key, out var data))
+                continue;
 
             try
             {
-                TimeWatches[farmer.UniqueMultiplayerID] = JsonConvert.DeserializeObject<Data.MagicTimeWatch>(data)!;
+                TimeWatches[farmer.UniqueMultiplayerID] = JsonConvert.DeserializeObject<MagicTimeWatch>(data)!;
             }
             catch
             {
-                TimeWatches[farmer.UniqueMultiplayerID] = new Data.MagicTimeWatch(farmer);
+                TimeWatches[farmer.UniqueMultiplayerID] = new MagicTimeWatch();
             }
         }
     }

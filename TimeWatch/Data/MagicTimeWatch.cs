@@ -13,18 +13,29 @@ internal class MagicTimeWatch
     public static GameTimeSpan DailyMaximumStorableTimeSpan => GameTimeSpan.FromMinutes(DailyMaximumStorableTime);
     public static GameTimeSpan TodayWorldSeekedTime;
     // public const string DailySeekedTimeKey = "kyuubiran.TimeWatch/TodayWorldSeekedTime";
-
-    [JsonIgnore] public readonly Farmer Owner;
-    [JsonIgnore] public long OwnerId => Owner.UniqueMultiplayerID;
+    
     [JsonIgnore] public GameTimeSpan TimeSpan => GameTimeSpan.FromMinutes(StoredTime);
 
-    public int StoredTime { get; private set; }
+    public int StoredTime { get; set; }
 
     [JsonIgnore] public GameTimeSpan StoredTimeSpan => GameTimeSpan.FromMinutes(StoredTime);
-
-    public MagicTimeWatch(Farmer owner)
+    
+    public MagicTimeWatch()
     {
-        Owner = owner;
+        if (MaxStorableTime > 0)
+            StoredTime = StoredTime.CoerceIn(0, MaxStorableTime);
+    }
+
+    public MagicTimeWatch(int minutes)
+    {
+        StoredTime = minutes;
+        if (MaxStorableTime > 0)
+            StoredTime = StoredTime.CoerceIn(0, MaxStorableTime);
+    }
+
+    public MagicTimeWatch(GameTimeSpan ts)
+    {
+        StoredTime = ts.TotalMinutes;
         if (MaxStorableTime > 0)
             StoredTime = StoredTime.CoerceIn(0, MaxStorableTime);
     }
